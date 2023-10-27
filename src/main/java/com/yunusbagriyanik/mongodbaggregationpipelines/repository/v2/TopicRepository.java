@@ -5,6 +5,8 @@ import com.yunusbagriyanik.mongodbaggregationpipelines.model.v2.Topic;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
+
 public interface TopicRepository extends MongoRepository<Topic, String> {
 
     @Aggregation(pipeline = {
@@ -15,4 +17,12 @@ public interface TopicRepository extends MongoRepository<Topic, String> {
             "{$limit: 1}"
     })
     TopVoted findTopVotedTopic();
+
+    @Aggregation(pipeline = {
+            "{$lookup: {from: 'votes', localField: '_id', foreignField: 'topicId', as: 'votes'}}",
+            "{$unwind: '$votes'}",
+            "{$group: {_id: '$_id', name: {$first: '$name'}, totalVotes: {$sum: '$votes.voteValue'}, categoryId: {$first: '$categoryId'}}}",
+            "{$sort: {totalVotes: -1}}"
+    })
+    List<TopVoted> findTopVotedTopics();
 }
