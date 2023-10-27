@@ -1,0 +1,7 @@
+package com.yunusbagriyanik.mongodbaggregationpipelines.repository.v2;
+
+import com.yunusbagriyanik.mongodbaggregationpipelines.model.v2.Category;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface CategoryRepository extends MongoRepository<Category, String> {
+}
