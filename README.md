@@ -17,3 +17,6 @@
 ###### 2. Build Project
 
     $ mvn clean install
+
+###### 3. Run App
+    $ mvn spring-boot:run
